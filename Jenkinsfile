@@ -13,5 +13,9 @@ pipeline {
             }
         }
     }
-
+    stage('Gitleaks') {
+        steps {
+            sh 'gitleaks git --log-opts=HEAD --redact=100 --exit-code=1 .'
+        }
+    }
 }
