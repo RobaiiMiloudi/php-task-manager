@@ -12,10 +12,11 @@ pipeline {
                 echo "Checked out ${env.BRANCH_NAME}"
             }
         }
-    }
-    stage('Gitleaks') {
-        steps {
-            sh 'gitleaks git --log-opts=HEAD --redact=100 --exit-code=1 .'
+        stage('Gitleaks') {
+            steps {
+                sh 'gitleaks git --log-opts=HEAD --redact=100 --exit-code=1 .'
+            }
         }
     }
 }
+
