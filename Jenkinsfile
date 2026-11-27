@@ -17,6 +17,20 @@ pipeline {
                 sh 'gitleaks git --log-opts=HEAD --redact=100 --exit-code=1 .'
             }
         }
+        stage('SonarQube Analysis and Quality Gate') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                script {
+                    def scannerHome = tool 'SonarScanner'
+                    withSonarQubeEnv('SonarQube') {
+                        withEnv(["PATH+SONAR=${scannerHome}/bin"]) {
+                            sh 'sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=300'
+                        }
+                    }
+                }
+            }
+        }        
     }
 }
-
